@@ -193,5 +193,62 @@ Congrats! We've just reached a checkpoint. We've learned how to write and render
 
 In this stage, we are going to add callbacks to our `JokeCard` buttons, and loop through a list of hardcoded jokes once a user has rated the currently displayed one. 
 
+The first step is to change our `JOKE` constant in `App.js`, with a list of jokes:
 
+```javascript
+const JOKES = [                                                                
+  "How do you know if a Mathematician is extroverted? He looks at your shoes!",
+  "Parallel lines have so much in common... it’s a shame they’ll never meet!", 
+  "My girlfriend is the square root of -100. She's a perfect 10, but purely imaginary.",
+  "I just saw my math teacher with a piece of graph paper. I think he must be plotting something."
+]
+```
+
+We must then figure out which joke we need to pass down to our `JokeCard` component. We'll do this by making our `App` component _stateful_. Components, in addition to having `this.props`, can also have `this.state`, very much like a `WorldState`. So the `state` of our `App` component will just be the index of the current joke in `JOKES`. We can set the initial state of our component by adding a constructor. Add the following code snippet above the `render` function in your `App` component.
+
+```javascript
+constructor(props) {                                                         
+    super(props)
+  
+    this.state = {                                                             
+      jokeIndex: 0                                                             
+    }
+  }
+```
+
+We can then modify the render so instead of passing `joke={JOKE}`, we write
+
+```javascript
+joke={JOKES[this.state.jokeIndex]}
+```
+
+The page in your browser should still look the same. But now that we have state, how do we change it? We need some handler like an `on-click` that will change the joke index when we click on the button. We'll write this handler now. Paste the following function in your `App` component.
+
+```javascript
+advanceJokeIndex = () => {                                                   
+    this.setState({
+      jokeIndex: (this.state.jokeIndex + 1) % JOKES.length                     
+    })
+  }
+```
+
+We've just defined a value called `advanceJokeIndex` as a function with no inputs that calls the React `setState` function to change the state of our component. We give `setState` an object with the field of our state that we want to update (`jokeIndex`) and its new value (modding with the length of jokes so that we cycle through the list).
+
+IMPORTANT: Always use `setState` when modifying state instead of trying to set `this.state` directly. React needs to know about state changes so it can perform the necessary operations/optimizations to generate the correct HTML, and it is notified about state changes through `setState`.
+
+Now that we have a handler to change `jokeIndex`, we need to give it to our button. We'll pass an additional prop to `JokeCard` that we'll call `onButtonClick`. Add the following prop to the `JokeCard` tag:
+
+```javascript
+onButtonClick={this.advanceJokeIndex}
+```
+
+As it so happens, the material-ui `Button` has a prop called `onClick`, which accepts a callback (or handler) to call whenever it is clicked. In `JokeCard`, pass the prop we just defined as a prop to the `Button` component.
+
+```javascript
+onClick={this.props.onButtonClick}
+```
+
+Now, if you go to your browser, you should be able to click through all the jokes we just added! Having stateful/stateless components works hand-in-hand with the notion of smart/dumb components and hopefully now the motivation for refactoring our `JokeCard` earlier is clear.
+
+Congrats! You've hit another checkpoint. You've learned how to create stateful components and manage that state through `setState` and callbacks. You can see the full changes in the `stage-2-state` project or move on to the next stage where we'll tackle asynchronous events and fetching data from live sources instead of hardcoding our jokes.
 

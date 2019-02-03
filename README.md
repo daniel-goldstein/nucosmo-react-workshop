@@ -323,7 +323,7 @@ Now, since we've changed our state, we have to change our `render`. Replace the 
 }
 ```
 
-Here, we're using the Javascript ternary operator to say: if `this.state.joke` is not null (technically if it is "truthy"), render a `JokeCard` and pass it the joke field of the joke. Otherwise, render "Waiting for a joke".
+Here, we're using the Javascript ternary operator to say: if `this.state.joke` is not null (technically if it is "truthy"), render a `JokeCard`. Otherwise, render "Waiting for a joke".
 
 Congrats! You've reached the final checkpoint. In this section, you got to see how you can do things asynchronously in React and glimpsed a bit more at the component lifecycle. If something went wrong, you can check your code against `stage-3-async` which is synced up to this point.
 

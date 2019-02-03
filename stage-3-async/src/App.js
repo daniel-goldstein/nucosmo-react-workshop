@@ -20,7 +20,7 @@ class App extends Component {
   fetchJoke = () => {
     fetch(JOKE_API)
       .then(response => response.json())
-      .then(newJoke => this.setState({ joke: newJoke }))
+      .then(message => this.setState({ joke: message['joke'] }))
   }
 
   render() {
@@ -29,7 +29,7 @@ class App extends Component {
         <header className="App-header">
           { this.state.joke
             ?
-            <JokeCard joke={this.state.joke["animal"]} 
+            <JokeCard joke={this.state.joke} 
                       onButtonClick={this.fetchJoke} />
             :
             "Waiting for a joke..."

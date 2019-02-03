@@ -3,7 +3,7 @@ Ever wanted to create a webapp but didn't know where to start? Well, I have. Thi
 
 By iterating through a simple project, we'll cover the following core principles/styles of React: the component model (stateless/stateful and dumb/smart), the component lifecycle/asynchronicity, and libraries. Although knowledge of Javascript is essential to ultimately writing React webapps, we will provide all the code with directions for plugging in so the focus is on the workings of React. Any experience level is welcome!
 
-In this tutorial, we'll progress through the development of a simple joke application, with checkpoints along the way when we hit major milestones. We'll develop a site that shows the user a joke with the ability to like or dislike it, cycle through a list of jokes, save them and even fetch the content from an API.
+In this tutorial, we'll progress through the development of a simple joke application, with checkpoints along the way when we hit major milestones. We'll develop a site that shows the user a joke with the ability to cycle through a list of jokes, save them and even fetch the content from an API.
 
 If you want to get a head-start on the setup, complete the environment setup below so we can hit the ground running at the workshop!
 
@@ -59,7 +59,7 @@ export default App;
 
 Go back to your browser to see the change! Here, we have three nested elements. In JSX, you can use the `className` **prop** to provide a CSS class to style that element. Try to take a look at the `App.css` file, specifically the `App` and `App-header` classes to see how the current page is styled. Let's create our own component for our text and see how we can render that component inside `App`.
 
-### Creating Our Own Component
+### Creating Your Own Component
 
 Create a new file called `JokeCard.js` in the `src` directory and insert the following code:
 
@@ -258,13 +258,9 @@ Congrats! You've hit another checkpoint. You've learned how to create stateful c
 
 It is pretty limiting to have to hard-code jokes into the source code of our application. In this section, we'll utilize the API that [Josh Spicer](https://github.com/joshspicer) set up to fetch jokes on the fly.
 
-Since our data's coming from somewhere else, we're going to have to change our `App`'s state. We'll have to handle the case where we have a joke and when we've not yet received one from the server. So our `this.state.joke` will look something like this:
+Since our data's coming from somewhere else, we're going to have to change our `App`'s state. We'll have to handle the case where we have a joke and when we've not yet received one from the server. So our `this.state.joke` will either be `null` or a String we've received from a server message, which is defined as:
 
-A Joke is one of:
-- null
-- {"number": Number, "animal": String}
-
-The object in the second branch of that definition is the data format in which the server will send a message. A `ServerMsg` if you will.
+```{"number": Number, "joke": String, "animal": String}```
 
 Let's update our constructor to reflect the new initial state. Replace your assignment of `this.state` in the constructor with the following:
 
@@ -280,7 +276,7 @@ So how do we actually fetch this data? We can use React's built-in `fetch`. You 
 fetchJoke = () => {
     fetch(JOKE_API)
       .then(response => response.json())
-      .then(newJoke => this.setState({ joke: newJoke }))
+      .then(message => this.setState({ joke: message['joke'] }))
 }
 ```
 
@@ -290,7 +286,7 @@ You can also then replace the `JOKES` list with the URL that we will `fetch` the
 const JOKE_API = "https://api.joshspicer.com/cosmo"
 ```
 
-A lot is happening in `fetchJoke` right now, so if it looks foreign to you, don't worry. Here are some resources for [HTTP requests](https://www.codecademy.com/articles/http-requests) and [Javascript promises](https://javascript.info/promise-basics). The main takeaway from that function is that it is _asynchronous_, meaning our application will not wait for our request to return with a joke before it continues doing what it was doing. What we are actually saying is telling React: "send a GET request to that URL, and when it sends a response back, _then_ turn that response into JSON, _then_ use `setState` to set our joke to that response".
+A lot is happening in `fetchJoke` right now, so if it looks foreign to you, don't worry. Here are some resources for [HTTP requests](https://www.codecademy.com/articles/http-requests) and [Javascript promises](https://javascript.info/promise-basics). The main takeaway from that function is that it is _asynchronous_, meaning our application will not wait for our request to return with a joke before it continues doing what it was doing. What we are actually saying is telling React: "send a GET request to that URL, and when it sends a response back, _then_ turn that response into JSON, _then_ use `setState` to set our joke to that response" (I'm looking at you, `on-receive`).
 
 The next step is figuring out, where should we call `fetchJoke`? Well one of the answers is as our button click callback, since we deleted `advanceJokeIndex`. So let's first replace
 
@@ -317,18 +313,23 @@ Once our `App` component has been created, React will call the `componentDidMoun
 Now, since we've changed our state, we have to change our `render`. Replace the current `JokeCard` tag with this snippet:
 
 ```javascript
-{ this.state.joke
+{ 
+  this.state.joke
   ?
-  <JokeCard joke={this.state.joke["animal"]}
+  <JokeCard joke={this.state.joke}
             onButtonClick={this.fetchJoke} />
   :
   "Waiting for a joke..."
 }
 ```
 
-Here, we're using the Javascript ternary operator to say: if `this.state.joke` is not null (technically if it is "truthy"), render a `JokeCard` and pass it the animal field of the joke. Otherwise, render "Waiting for a joke".
+Here, we're using the Javascript ternary operator to say: if `this.state.joke` is not null (technically if it is "truthy"), render a `JokeCard` and pass it the joke field of the joke. Otherwise, render "Waiting for a joke".
 
 Congrats! You've reached the final checkpoint. In this section, you got to see how you can do things asynchronously in React and glimpsed a bit more at the component lifecycle. If something went wrong, you can check your code against `stage-3-async` which is synced up to this point.
+
+## Onward
+
+We've covered a lot of the basics of a React application. Now try to take these pieces into something more complex! A few suggestions would be taking this app and adding buttons for like/dislike. Maybe depending on whether someone likes or dislikes a joke, you can save that to a list that is rendered along-side the joke-card (look at material-ui's [List](https://material-ui.com/demos/lists/)). Or do something completely new! Find some other fun libraries or try to make things from scratch. Whatever you decide to do, keep in mind the smart/dumb component pattern. And as always, may the design recipe be with you.
 
 
 

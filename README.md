@@ -117,7 +117,7 @@ and in the body of the `render`, replace the current `div` with
 </Card>
 ```
 
-If you look your browser again, you should see one long white block. Well that doesn't look quite right. If you highlight, you'll see the text is actually being rendered, but it's the same white color as the card. This is because the CSS in the `header` element of the `App` component is propogating down. We need to provide style to our card to override that and get the style we want. We can do this two ways, either by writing a CSS class and using the `className` prop, or by providing an object of CSS-like styling commands as the `style` prop of any component. To change the text color (and width while we're add it), add the following line in the `Card` tag of the `JokeCard` component:
+If you look your browser again, you should see one long white block. Well that doesn't look quite right. If you highlight, you'll see the text is actually being rendered, but it's the same white color as the card. This is because the CSS in the `header` element of the `App` component is propogating down. We need to provide style to our card to override that and get the style we want. We can do this two ways, either by writing a CSS class and using the `className` prop, or by providing an object of CSS-like styling commands as the `style` prop of any component. Though the former is generally advised for reuse and code clarity, we're going to use the `style` approach since it is a small modification as well as for demonstrative purposes. To change the text color (and width while we're add it), add the following line in the `Card` tag of the `JokeCard` component:
 
 ```javascript
 style={{color: 'black', width: '30%'}}

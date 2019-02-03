@@ -81,11 +81,11 @@ export default JokeCard;
 
 We've created a component that renders a joke. We can use `{}` to execute Javascript within the JSX. Otherwise, "joke" would be interpreted as plain text and not the constant we defined above.
 
-Now, in `App.js`, place `import JokeCard from './JokeCard'` to import our component, and replace `<div>Hi there!</div>` with `<JokeCard />` to render it!
+Now, in `App.js`, write `import JokeCard from './JokeCard'` along with the other imports, and replace `<div>Hi there!</div>` with `<JokeCard />` to render it!
 
 ### Smart vs Dumb Components
 
-This is great and all, but let's take a minute to think about logical organization. Right now, our `JokeCard` component is responsible for both its content and the way it is rendered (it is just a simple `div` for now but we will make it more involved and this point will become more clear). An important pattern in React is the notion of having "smart" components, and "dumb" components. The smart components are concerned with what data is available on the page, and the dumb components are given data and only worry about how it is displayed. We can turn our `JokeCard` into a "dumb" component by providing its content via its parent component, `App`.
+This is great and all, but let's take a minute to think about logical organization. Right now, our `JokeCard` component is responsible for both its content and the way it is rendered (it is just a simple `div` for now but we will soon make it more involved and this point will become more clear). An important pattern in React is the notion of having "smart" components, and "dumb" components. The smart components are concerned with what data is available on the page. The dumb components are given data and only worry about how it is displayed. We can turn our `JokeCard` into a "dumb" component by providing its content via its parent component, `App`.
 
 Move the constant `JOKE` from the `JokeCard` component to the `App` component. Then, instead of `<JokeCard />`, write `<JokeCard joke={JOKE} />`. In `JokeCard`, instead of `{JOKE}`, write `{this.props.joke}`. You should be able to refresh your browser and the page should look the same.
 
@@ -117,7 +117,9 @@ and in the body of the `render`, replace the current `div` with
 </Card>
 ```
 
-If you look your browser again, you should see one long white block. Well that doesn't look quite right. If you highlight, you'll see the text is actually being rendered, but it's the same white color as the card. This is because the CSS in the `header` element of the `App` component is propogating down. We need to provide style to our card to override that and get the style we want. We can do this two ways, either by writing a CSS class and using the `className` prop, or by providing an object of CSS-like styling commands as the `style` prop of any component. Though the former is generally advised for reuse and code clarity, we're going to use the `style` approach since it is a small modification as well as for demonstrative purposes. To change the text color (and width while we're add it), add the following line in the `Card` tag of the `JokeCard` component:
+If you look your browser again, you should see one long white block. Well that doesn't look quite right. If you highlight, you'll see the text is actually being rendered, but it's the same white color as the card. This is because the CSS in the `header` element of the `App` component is propogating down. We need to provide style to our card to override that and get the style we want. 
+
+We can add style to a component in two ways: writing a CSS class and using the `className` prop, or by providing an object of CSS-like styling commands as the `style` prop. Though the former is generally advised for reuse and code clarity, we're going to use the `style` approach since it is a small modification as well as for demonstrative purposes. To change the text color (and width while we're at it), add the following line in the `Card` tag of the `JokeCard` component:
 
 ```javascript
 style={{color: 'black', width: '30%'}}
@@ -146,7 +148,7 @@ class JokeCard extends Component {
 export default JokeCard;
 ```
 
-If you're not me, you might not find this joke so funny, so we're going to add a Next button to our `JokeCard`. It won't do anything yet as we will be implementing the functionality in Stage 2. Again, we'll rest on the material-ui library to provide us with a button. We can look at the [Card](https://material-ui.com/demos/cards/) and [Button](https://material-ui.com/demos/buttons/) documentation to see how we can use buttons in our cards.
+If you're not me you might not find this joke so funny, so we're going to add a Next button to our `JokeCard`. It won't do anything yet as we will be implementing the functionality in Stage 2. Again, we'll rest on the material-ui library to provide us with a button. We can look at the [Card](https://material-ui.com/demos/cards/) and [Button](https://material-ui.com/demos/buttons/) documentation to see how we can use buttons in our cards.
 
 We'll add the following two imports to the `JokeCard` file:
 
@@ -184,7 +186,7 @@ className="Center-row"
 
 The CSS we just added uses Flexbox to align child components. We won't go much into Flexbox or CSS in general in this tutorial, but you can read more about it [here](https://css-tricks.com/snippets/css/a-guide-to-flexbox/).
 
-Congrats! We've just reached a checkpoint. We've learned how to write and render stateless components, pass them information via props to separate smart/dumb components as well as use external libraries. If something went awry, you can compare with `stage-1-stateless` in this repo which is synced up to this point. Continue on to the next section to learn how to incorporate state and responsiveness to make our React application ~react~.
+Congrats! We've just reached a checkpoint. We've learned how to write and render stateless components, pass them information via props to separate smart/dumb components as well as use external libraries. If something went awry, you can compare with `stage-1-stateless` in this repo which is synced up to this point. Continue on to the next section to learn how to incorporate state and responsiveness to make our React application \~react\~.
 
 
 ## Stage 2 - Implementing State

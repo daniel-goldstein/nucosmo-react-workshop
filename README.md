@@ -329,7 +329,7 @@ Congrats! You've reached the final checkpoint. In this section, you got to see h
 
 ## Onward
 
-We've covered a lot of the basics of a React application. Now try to take these pieces into something more complex! A few suggestions would be taking this app and adding buttons for like/dislike. Maybe depending on whether someone likes or dislikes a joke, you can save that to a list that is rendered along-side the joke-card (look at material-ui's [List](https://material-ui.com/demos/lists/)). Or do something completely new! Find some other fun libraries or try to make things from scratch. Whatever you decide to do, keep in mind the smart/dumb component pattern. And as always, may the design recipe be with you.
+We've covered a lot of the basics of a React application. Now try to take these pieces into something more complex! A few suggestions would be taking this app and adding buttons for like/dislike. Maybe depending on whether someone likes or dislikes a joke, you can save that to a list that is rendered along-side the joke-card (look at material-ui's [List](https://material-ui.com/demos/lists/)), or do something completely new! Find some other fun libraries or try to make things from scratch. Whatever you decide to do, keep in mind the smart/dumb component pattern and, as always, may the design recipe be with you.
 
 
 

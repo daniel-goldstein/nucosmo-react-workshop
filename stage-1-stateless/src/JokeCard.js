@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
 
 class JokeCard extends Component {
 	render() {
@@ -10,6 +12,14 @@ class JokeCard extends Component {
 				<CardContent>
 					{this.props.joke}
 				</CardContent>
+				<CardActions className="Center-row">
+					<Button variant="contained" color="secondary">
+						Dislike
+					</Button>
+					<Button variant="contained" color="primary">
+						Like
+					</Button>
+				</CardActions>
 			</Card>
 		);
 	}

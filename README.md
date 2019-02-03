@@ -146,11 +146,53 @@ class JokeCard extends Component {
 export default JokeCard;
 ```
 
-Congrats! We've just reached a checkpoint. We've learned how to use write and render stateless components, pass them information via props to separate smart/dumb components as well as use external libraries. Continue on to the next section to learn how to incorporate state and responsiveness to make our React application ~react~.
+If you're not me, you might not find this joke so funny, so we're going to add like and dislike buttons to our `JokeCard`. They won't do anything yet as we will be implementing their functionality in Stage 2. Again, we'll rest on the material-ui library to provide us with buttons. We can look at the [Card](https://material-ui.com/demos/cards/) and [Button](https://material-ui.com/demos/buttons/) documentation to see how we can use buttons in our cards.
+
+We'll add the following two imports to the `JokeCard` file:
+
+```javascript
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
+```
+
+We'll then add the following JSX beneath the `CardContent` component.
+
+```javascripts
+<CardActions>
+  <Button variant="contained" color="secondary">
+    Dislike
+  </Button>
+  <Button variant="contained" color="primary">
+    Like
+  </Button>
+</CardActions>
+```
+
+We now have two buttons! If you want the buttons centered instead of pushed off to the side, add the following class to `App.css`:
+
+```css
+.Center-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+```
+
+and the following class prop to the `CardActions` component:
+
+```javascript
+className="Center-row"
+```
+
+The CSS we just added uses Flexbox to align child components. We won't go much into Flexbox or CSS in general in this tutorial, but you can read more about it [here](https://css-tricks.com/snippets/css/a-guide-to-flexbox/).
+
+Congrats! We've just reached a checkpoint. We've learned how to use write and render stateless components, pass them information via props to separate smart/dumb components as well as use external libraries. If something went awry, you can compare with `stage-1-stateless` in this repo which is synced up to this point. Continue on to the next section to learn how to incorporate state and responsiveness to make our React application ~react~.
 
 
+## Stage 2 - Implementing State
 
-
+In this stage, we are going to add like and dislike buttons to our `JokeCard`, and loop through a list of hardcoded jokes once a user has rated the currently displayed one. 
 
 
 

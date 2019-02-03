@@ -216,6 +216,8 @@ constructor(props) {
   }
 ```
 
+The constructor is called when the component is first called by a parent component, making it the perfect place to set our component's initial state as well as anything else we want to set at the beginning of this component's life.
+
 We can then modify the render so instead of passing `joke={JOKE}`, we write
 
 ```javascript
@@ -250,5 +252,84 @@ onClick={this.props.onButtonClick}
 
 Now, if you go to your browser, you should be able to click through all the jokes we just added! Having stateful/stateless components works hand-in-hand with the notion of smart/dumb components and hopefully now the motivation for refactoring our `JokeCard` earlier is clear.
 
-Congrats! You've hit another checkpoint. You've learned how to create stateful components and manage that state through `setState` and callbacks. You can see the full changes in the `stage-2-state` project or move on to the next stage where we'll tackle asynchronous events and fetching data from live sources instead of hardcoding our jokes.
+Congrats! You've hit another checkpoint. You've learned how to create stateful components and manage that state through `setState` and callbacks. You can see the full changes in the `stage-2-state` project or move on to the next stage where we'll tackle asynchronous events and fetching data from live sources instead of hard-coding our jokes.
+
+## Stage 3 - Going Async
+
+It is pretty limiting to have to hard-code jokes into the source code of our application. In this section, we'll utilize the API that [Josh Spicer](https://github.com/joshspicer) set up to fetch jokes on the fly.
+
+Since our data's coming from somewhere else, we're going to have to change our `App`'s state. We'll have to handle the case where we have a joke and when we've not yet received one from the server. So our `this.state.joke` will look something like this:
+
+A Joke is one of:
+- null
+- {"number": Number, "animal": String}
+
+The object in the second branch of that definition is the data format in which the server will send a message. A `ServerMsg` if you will.
+
+Let's update our constructor to reflect the new initial state. Replace your assignment of `this.state` in the constructor with the following:
+
+```javascript
+this.state = {
+  joke: null
+}
+```
+
+So how do we actually fetch this data? We can use React's built-in `fetch`. You can delete the `advanceJokeIndex` function we wrote earlier and instead replace it with this:
+
+```javascript
+fetchJoke = () => {
+    fetch(JOKE_API)
+      .then(response => response.json())
+      .then(newJoke => this.setState({ joke: newJoke }))
+}
+```
+
+You can also then replace the `JOKES` list with the URL that we will `fetch` the jokes from:
+
+```javascript
+const JOKE_API = "https://api.joshspicer.com/cosmo"
+```
+
+A lot is happening in `fetchJoke` right now, so if it looks foreign to you, don't worry. Here are some resources for [HTTP requests](https://www.codecademy.com/articles/http-requests) and [Javascript promises](https://javascript.info/promise-basics). The main takeaway from that function is that it is _asynchronous_, meaning our application will not wait for our request to return with a joke before it continues doing what it was doing. What we are actually saying is telling React: "send a GET request to that URL, and when it sends a response back, _then_ turn that response into JSON, _then_ use `setState` to set our joke to that response".
+
+The next step is figuring out, where should we call `fetchJoke`? Well one of the answers is as our button click callback, since we deleted `advanceJokeIndex`. So let's first replace
+
+```javascript
+onButtonClick={this.advanceJokeIndex}
+```
+
+with
+
+```javascript
+onButtonClick={this.fetchJoke}
+```
+
+But what about the first joke? Here's where we'll introduce another React method: `componentDidMount`. Together with the `constructor` and `render`, these methods make up key aspects of the [React Component Lifecycle](https://www.tutorialspoint.com/reactjs/reactjs_component_life_cycle.htm), built-in methods that React calls in order once a component has been created and whenever it encounters updates throughout its life. Insert the following function into your `App` component.
+
+```javascript
+componentDidMount() {
+  this.fetchJoke()
+}
+```
+
+Once our `App` component has been created, React will call the `componentDidMount` function, making this a perfect place to put asynchronous setup, like requesting a joke!
+
+Now, since we've changed our state, we have to change our `render`. Replace the current `JokeCard` tag with this snippet:
+
+```javascript
+{ this.state.joke
+  ?
+  <JokeCard joke={this.state.joke["animal"]}
+            onButtonClick={this.fetchJoke} />
+  :
+  "Waiting for a joke..."
+}
+```
+
+Here, we're using the Javascript ternary operator to say: if `this.state.joke` is not null (technically if it is "truthy"), render a `JokeCard` and pass it the animal field of the joke. Otherwise, render "Waiting for a joke".
+
+Congrats! You've reached the final checkpoint. In this section, you got to see how you can do things asynchronously in React and glimpsed a bit more at the component lifecycle. If something went wrong, you can check your code against `stage-3-async` which is synced up to this point.
+
+
+
 

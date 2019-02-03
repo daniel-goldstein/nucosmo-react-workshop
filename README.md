@@ -91,11 +91,62 @@ Move the constant `JOKE` from the `JokeCard` component to the `App` component. T
 
 In React, we can pass information to child components by assigning key-value pairs in the JSX we use to render them, and then access that information in the `this.props` field of the child component. By making this change, we made sure the `JokeCard` component is only concerned how to render a joke, both simplifying the code and enabling reuse.
 
+### Using Libraries
 
+With this limited knowledge so far, we can already start using some libraries. In order to make our `JokeCard` a little more card-like, we're going to be using the Card component from Google's material-ui library. We can install this through `npm` by executing the following command:
 
+```bash
+  > npm install @material-ui/core
+```
 
+We can look at the documentation for [Card](https://material-ui.com/demos/cards/) to get an understanding of how to use it and what supporting components we need to use.
+Now, at the top of the `JokeCard` component, write
 
+```javascript
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+```
 
+and in the body of the `render`, replace the current `div` with
+
+```javascript
+<Card>
+  <CardContent>
+    {this.props.joke}
+  </CardContent>
+</Card>
+```
+
+If you look your browser again, you should see one long white block. Well that doesn't look quite right. If you highlight, you'll see the text is actually being rendered, but it's the same white color as the card. This is because the CSS in the `header` element of the `App` component is propogating down. We need to provide style to our card to override that and get the style we want. We can do this two ways, either by writing a CSS class and using the `className` prop, or by providing an object of CSS-like styling commands as the `style` prop of any component. To change the text color (and width while we're add it), add the following line in the `Card` tag of the `JokeCard` component:
+
+```javascript
+style={{color: 'black', width: '30%'}}
+```
+
+The entire `JokeCard` file should now look like this:
+
+```javascript
+import React, { Component } from 'react';
+
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+
+class JokeCard extends Component {
+  render() {
+    return (
+      <Card style={{color: 'black', width: '30%'}}>
+        <CardContent>
+          {this.props.joke}
+        </CardContent>
+      </Card>
+    );
+  }
+}
+
+export default JokeCard;
+```
+
+Congrats! We've just reached a checkpoint. We've learned how to use write and render stateless components, pass them information via props to separate smart/dumb components as well as use external libraries. Continue on to the next section to learn how to incorporate state and responsiveness to make our React application ~react~.
 
 
 

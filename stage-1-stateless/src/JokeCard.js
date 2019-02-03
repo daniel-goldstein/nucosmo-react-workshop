@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+
 class JokeCard extends Component {
 	render() {
 		return (
-			<div>{this.props.joke}</div>
+			<Card style={{color: 'black', width: '30%'}}>
+				<CardContent>
+					{this.props.joke}
+				</CardContent>
+			</Card>
 		);
 	}
 }

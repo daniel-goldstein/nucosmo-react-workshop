@@ -81,11 +81,11 @@ export default JokeCard;
 
 We've created a component that renders a joke. We can use `{}` to execute Javascript within the JSX. Otherwise, "joke" would be interpreted as plain text and not the constant we defined above.
 
-Now, in `App.js`, write `import JokeCard from './JokeCard'` along with the other imports, and replace `<div>Hi there!</div>` with `<JokeCard />` to render it!
+Now, in `App.js`, paste `import JokeCard from './JokeCard;'` along with the other imports, and replace `<div>Hi there!</div>` with `<JokeCard />` to render it!
 
 ### Smart vs Dumb Components
 
-This is great and all, but let's take a minute to think about logical organization. Right now, our `JokeCard` component is responsible for both its content and the way it is rendered (it is just a simple `div` for now but we will soon make it more involved and this point will become more clear). An important pattern in React is the notion of having "smart" components, and "dumb" components. The smart components are concerned with what data is available on the page. The dumb components are given data and only worry about how it is displayed. We can turn our `JokeCard` into a "dumb" component by providing its content via its parent component, `App`.
+This is great and all, but let's take a minute to think about logical organization. Right now, our `JokeCard` component is responsible for both its content and the way it is rendered (it is just a simple `div` for now but we will soon make it more involved and this point will become more clear). An important pattern in React is the notion of having _smart_ components, and _dumb_ components. The smart components are concerned with what data is available on the page. The dumb components are given data and only worry about how it is displayed. We can turn our `JokeCard` into a dumb component by providing its content via its parent component, `App`.
 
 Move the constant `JOKE` from the `JokeCard` component to the `App` component. Then, instead of `<JokeCard />`, write `<JokeCard joke={JOKE} />`. In `JokeCard`, instead of `{JOKE}`, write `{this.props.joke}`. You should be able to refresh your browser and the page should look the same.
 
@@ -119,13 +119,13 @@ and in the body of the `render`, replace the current `div` with
 
 If you look your browser again, you should see one long white block. Well that doesn't look quite right. If you highlight, you'll see the text is actually being rendered, but it's the same white color as the card. This is because the CSS in the `header` element of the `App` component is propogating down. We need to provide style to our card to override that and get the style we want. 
 
-We can add style to a component in two ways: writing a CSS class and using the `className` prop, or by providing an object of CSS-like styling commands as the `style` prop. Though the former is generally advised for reuse and code clarity, we're going to use the `style` approach since it is a small modification as well as for demonstrative purposes. To change the text color (and width while we're at it), add the following line in the `Card` tag of the `JokeCard` component:
+We can add style to a component in two ways: writing a CSS class and using the `className` prop, or by providing an object of CSS-like styling commands as the `style` prop. Though the former is generally advised for reuse and code clarity, we're going to use the `style` approach since it is a small modification as well as for demonstrative purposes. To change the text color (and the max width while we're at it), add the following line inside the `<Card>` tag in `JokeCard.js`:
 
 ```javascript
-style={{color: 'black', width: '30%'}}
+style={{color: 'black', maxWidth: '500px'}}
 ```
 
-The entire `JokeCard` file should now look like this:
+The entire `JokeCard.js` file should now look like this:
 
 ```javascript
 import React, { Component } from 'react';
@@ -136,7 +136,7 @@ import CardContent from '@material-ui/core/CardContent';
 class JokeCard extends Component {
   render() {
     return (
-      <Card style={{color: 'black', width: '30%'}}>
+      <Card style={{color: 'black', maxWidth: '500px'}}>
         <CardContent>
           {this.props.joke}
         </CardContent>
@@ -178,7 +178,7 @@ We now have a button! If you want the button centered instead of pushed off to t
 }
 ```
 
-and the following `className` prop to the `CardActions` component:
+and the following `className` prop to the `CardActions` tag in `JokeCard.js`:
 
 ```javascript
 className="Center-row"
@@ -234,9 +234,9 @@ advanceJokeIndex = () => {
   }
 ```
 
-We've just defined a value called `advanceJokeIndex` as a function with no inputs that calls the React `setState` function to change the state of our component. We give `setState` an object with the field of our state that we want to update (`jokeIndex`) and its new value (modding with the length of jokes so that we cycle through the list).
+We've just defined a value called `advanceJokeIndex` as a function with no inputs that calls the React `setState` function to change the state of our component. We give `this.setState` an object with the field of our state that we want to update (`jokeIndex`) and its new value (modding with the length of jokes so that we cycle through the list).
 
-IMPORTANT: Always use `setState` when modifying state instead of trying to set `this.state` directly. React needs to know about state changes so it can perform the necessary operations/optimizations to generate the correct HTML, and it is notified about state changes through `setState`.
+IMPORTANT: Always use `this.setState` when modifying state instead of trying to set `this.state` directly. React needs to know about state changes so it can perform the necessary operations/optimizations to generate the correct HTML, and it is notified about state changes through `this.setState`.
 
 Now that we have a handler to change `jokeIndex`, we need to give it to our button. We'll pass an additional prop to `JokeCard` that we'll call `onButtonClick`. Add the following prop to the `JokeCard` tag:
 
